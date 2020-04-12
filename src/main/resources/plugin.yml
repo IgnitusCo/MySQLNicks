@@ -1,0 +1,29 @@
+name: MySQLNicks
+version: ${project.version}
+main: co.ignitus.mysqlnicks.MySQLNicks
+api-version: "1.13"
+softdepend: [PlaceholderAPI, Essentials, CMI]
+authors: ["Ignitus Co"]
+description: Share nicknames across servers with mysql
+website: https://ignitus.co
+
+commands:
+  nick:
+    description: Set your nickname
+    aliases: [onick, remotenick]
+  importnicks:
+    description: Import nicknames from a supported plugin
+  exportnicks:
+    description: Export nicknames to a supported plugin
+
+permissions:
+  mysqlnicks.staff:
+    description: Allow permission to use staff commands
+  mysqlnicks.nick:
+    description: Allow players to change their nicknames
+  mysqlnicks.nick.format:
+    description: Allow player to use color formatting in their nicknames.
+  mysqlnicks.importnicks:
+    description: Grant permission to import nicknames from supported plugins.
+  mysqlnicks.exportnicks:
+    description: Grant permission to export nicknames to supported plugins.

@@ -1,0 +1,38 @@
+mysql:
+  host: "X"
+  port: 3306
+  database: "X"
+  username: "X"
+  password: "X"
+  ## Don't change this unless the console is spamming errors about SSL.
+  ssl: true
+
+## Set to '' if you don't want a prefix.
+nickname-prefix: ''
+
+messages:
+  nick:
+    no-console: "&4Only players can use this command."
+    no-permission: "&4You do not have permission to use this command."
+    insufficient-arguments: "&4Please use te command like this &6/nick &e<nickname>"
+    no-formatting: "&4You are not allowed to use code formatting in your nickname."
+    invalid-player: "&4Unable to find a player with that name."
+    error: "&4An error occurred while trying to set your nickname."
+    set: "&aSuccessfully set your nickname to &e%nickname%"
+    unset: "&aSuccessfully remove your nickname."
+    staff:
+      error: "&4An error occurred while trying to set &e%player%&4's nickname."
+      set: "&aSuccessfully set &e%player%&a's nickname to &e%nickname%"
+      unset: "&aSuccessfully removed &e%player%&a's nickname."
+  importnicks:
+    no-permission: "&4You do not have permission to use this command."
+    no-dependency: "&4Unable to locate Essentials or CMI on the server."
+    error: "&4An error occurred while trying to import nicknames from &e%plugin%"
+    starting: "&aStarting import from &e%plugin%"
+    finished: "&aSuccessfully imported nicknames from &e%plugin%"
+  exportnicks:
+    no-permission: "&4You do not have permission to use this command."
+    no-dependency: "&4Unable to locate Essentials or CMI on the server."
+    error: "&4An error occurred while trying to export nicknames to &e%plugin%"
+    starting: "&aStarting export to &e%plugin%"
+    finished: "&aSuccessfully exported nicknames to &e%plugin%"
