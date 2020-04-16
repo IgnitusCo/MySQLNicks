@@ -15,6 +15,7 @@ messages:
     no-console: "&4Only players can use this command."
     no-permission: "&4You do not have permission to use this command."
     insufficient-arguments: "&4Please use te command like this &6/nick &e<nickname>"
+    no-color: "&4You are not allowed to use color codes in your nickname."
     no-formatting: "&4You are not allowed to use code formatting in your nickname."
     invalid-player: "&4Unable to find a player with that name."
     error: "&4An error occurred while trying to set your nickname."

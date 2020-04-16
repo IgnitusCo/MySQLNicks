@@ -3,6 +3,7 @@ package co.ignitus.mysqlnicks.commands;
 import co.ignitus.mysqlnicks.util.DataUtil;
 import co.ignitus.mysqlnicks.util.MessageUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,6 +41,10 @@ public class NickCMD implements CommandExecutor {
             nickname = args[0];
         }
         nickname = nickname.replace("§", "&");
+        if (!player.hasPermission("mysqlnicks.nick.color") && !ChatColor.stripColor(MessageUtil.format(nickname)).equals(nickname)) {
+            player.sendMessage(MessageUtil.getMessage("nick.no-color"));
+            return true;
+        }
         if (!player.hasPermission("mysqlnicks.nick.format") && (nickname.contains("&l") ||
                 nickname.contains("&m") || nickname.contains("&n") || nickname.contains("&o") ||
                 nickname.contains("&r"))) {

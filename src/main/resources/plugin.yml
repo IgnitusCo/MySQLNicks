@@ -21,6 +21,8 @@ permissions:
     description: Allow permission to use staff commands
   mysqlnicks.nick:
     description: Allow players to change their nicknames
+  mysqlnicks.nick.color:
+    description: Allow players to use color codes in their nicknames.
   mysqlnicks.nick.format:
     description: Allow player to use color formatting in their nicknames.
   mysqlnicks.importnicks:

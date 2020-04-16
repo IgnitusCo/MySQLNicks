@@ -10,7 +10,7 @@ public class MessageUtil {
     }
 
     public static String getMessage(String path, String... replace) {
-        String message = MySQLNicks.getInstance().getConfig().getString("messages." + path, "&cUnknown message.");
+        String message = MySQLNicks.getInstance().getConfig().getString("messages." + path, "&cUnknown message. Please update your config.yml");
         for (int i = 0; i < replace.length; i+= 2)
             message = message.replace(replace[i], replace[i+1]);
         return format(message);
