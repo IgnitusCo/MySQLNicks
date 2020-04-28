@@ -1,5 +1,6 @@
 package co.ignitus.mysqlnicks.commands;
 
+import co.ignitus.mysqlnicks.MySQLNicks;
 import co.ignitus.mysqlnicks.util.DataUtil;
 import co.ignitus.mysqlnicks.util.MessageUtil;
 import org.bukkit.Bukkit;
@@ -7,9 +8,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class NickCMD implements CommandExecutor {
+
+    final MySQLNicks mySQLNicks = MySQLNicks.getInstance();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -40,6 +44,19 @@ public class NickCMD implements CommandExecutor {
             target = player;
             nickname = args[0];
         }
+
+        final FileConfiguration config = mySQLNicks.getConfig();
+        if (config.getBoolean("limit.enabled")) {
+            boolean includeColors = config.getBoolean("limit.include-color");
+            int length = config.getInt("limit.length");
+            String input = includeColors ? nickname : ChatColor.stripColor(MessageUtil.format(nickname));
+            if (input.length() > length) {
+                player.sendMessage(MessageUtil.getMessage("nick.exceeds-limit"));
+                return true;
+            }
+        }
+
+
         nickname = nickname.replace("§", "&");
         if (!player.hasPermission("mysqlnicks.nick.color") && !ChatColor.stripColor(MessageUtil.format(nickname)).equals(nickname)) {
             player.sendMessage(MessageUtil.getMessage("nick.no-color"));
@@ -49,6 +66,10 @@ public class NickCMD implements CommandExecutor {
                 nickname.contains("&m") || nickname.contains("&n") || nickname.contains("&o") ||
                 nickname.contains("&r"))) {
             player.sendMessage(MessageUtil.getMessage("nick.no-formatting"));
+            return true;
+        }
+        if (!player.hasPermission("mysqlnicks.nick.magic") && nickname.contains("&k")) {
+            player.sendMessage(MessageUtil.getMessage("nick.no-magic"));
             return true;
         }
 

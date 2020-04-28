@@ -25,6 +25,8 @@ permissions:
     description: Allow players to use color codes in their nicknames.
   mysqlnicks.nick.format:
     description: Allow player to use color formatting in their nicknames.
+  mysqlnicks.nick.magic:
+    description: "Allow player to use magic (&k) in their nicknames."
   mysqlnicks.importnicks:
     description: Grant permission to import nicknames from supported plugins.
   mysqlnicks.exportnicks:

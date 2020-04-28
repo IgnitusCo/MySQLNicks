@@ -10,13 +10,22 @@ mysql:
 ## Set to '' if you don't want a prefix.
 nickname-prefix: ''
 
+## Max length for a nickname
+limit:
+  enabled: false
+  ## Include colour codes in the count.
+  include-color: false
+  length: 16
+
 messages:
   nick:
     no-console: "&4Only players can use this command."
     no-permission: "&4You do not have permission to use this command."
-    insufficient-arguments: "&4Please use te command like this &6/nick &e<nickname>"
+    insufficient-arguments: "&4Please use the command like this &6/nick &e<nickname>"
+    exceeds-limit: "&4Your desired nickname exceeds the limit. Please choose a shorter nickname."
     no-color: "&4You are not allowed to use color codes in your nickname."
     no-formatting: "&4You are not allowed to use code formatting in your nickname."
+    no-magic: "&4You are not allowed to use magic in your nickname."
     invalid-player: "&4Unable to find a player with that name."
     error: "&4An error occurred while trying to set your nickname."
     set: "&aSuccessfully set your nickname to &e%nickname%"
