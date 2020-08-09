@@ -16,7 +16,7 @@ public final class MySQLNicks extends JavaPlugin {
     @Getter
     private static MySQLNicks instance;
 
-    private CommandSender cs = Bukkit.getConsoleSender();
+    private final CommandSender cs = Bukkit.getConsoleSender();
 
     @Override
     public void onEnable() {

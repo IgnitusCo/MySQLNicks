@@ -50,12 +50,11 @@ public class NickCMD implements CommandExecutor {
             boolean includeColors = config.getBoolean("limit.include-color");
             int length = config.getInt("limit.length");
             String input = includeColors ? nickname : ChatColor.stripColor(MessageUtil.format(nickname));
-            if (input.length() > length) {
+            if (input.length() > length && !player.hasPermission("mysqlnicks.bypass.limit")) {
                 player.sendMessage(MessageUtil.getMessage("nick.exceeds-limit"));
                 return true;
             }
         }
-
 
         nickname = nickname.replace("§", "&");
         if (!player.hasPermission("mysqlnicks.nick.color") && !ChatColor.stripColor(MessageUtil.format(nickname)).equals(nickname)) {

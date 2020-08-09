@@ -31,3 +31,7 @@ permissions:
     description: Grant permission to import nicknames from supported plugins.
   mysqlnicks.exportnicks:
     description: Grant permission to export nicknames to supported plugins.
+  mysqlnicks.bypass.nocolor:
+    description: Shows colors in the nocolor placeholder
+  mysqlnicks.bypass.limit:
+    description: Grants permission to bypass character limit
