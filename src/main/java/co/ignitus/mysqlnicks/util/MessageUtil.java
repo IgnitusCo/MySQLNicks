@@ -9,22 +9,27 @@ import java.util.regex.Pattern;
 
 public class MessageUtil {
 
+    private static final String HEX_REGEX = "\\{#([A-Fa-f0-9]{6})}|#([A-Fa-f0-9]{6})";
+
     public static String format(String message) {
         if (Bukkit.getVersion().contains("1.16")) {
-            Pattern pattern = Pattern.compile("\\{?#([A-Fa-f0-9]{6})}?");
+            Pattern pattern = Pattern.compile(HEX_REGEX);
             Matcher matcher = pattern.matcher(message);
             while (matcher.find()) {
-                String result = "#" + matcher.group(1);
-                message = message.replace(matcher.group(0), net.md_5.bungee.api.ChatColor.of(result) + "");
+                final String match = matcher.group();
+                final String colour = match
+                        .replace("{", "")
+                        .replace("}", "");
+                message = message.replace(match, net.md_5.bungee.api.ChatColor.of(colour) + "");
             }
         } else
-            message = message.replaceAll("\\{?#([A-Fa-f0-9]{6})}?", "");
+            message = message.replaceAll(HEX_REGEX, "");
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
     public static String stripColor(String message) {
         return ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', message))
-                .replaceAll("\\{?#([A-Fa-f0-9]{6})}?", "");
+                .replaceAll(HEX_REGEX, "");
     }
 
     public static String getMessage(String path, String... replace) {
