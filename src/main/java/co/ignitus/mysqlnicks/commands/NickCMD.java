@@ -31,6 +31,7 @@ public class NickCMD implements CommandExecutor {
             return true;
         }
 
+        //The player who's nickname is been changed
         final Player target;
         String nickname;
         if (args.length == 2 && player.hasPermission("mysqlnicks.staff")) {
@@ -57,9 +58,15 @@ public class NickCMD implements CommandExecutor {
         }
 
         nickname = nickname.replace("§", "&");
-        if (!player.hasPermission("mysqlnicks.nick.color") && !ChatColor.stripColor(MessageUtil.format(nickname)).equals(nickname)) {
-            player.sendMessage(MessageUtil.getMessage("nick.no-color"));
-            return true;
+        if (!player.hasPermission("mysqlnicks.nick.color")) {
+            if (!player.hasPermission("mysqlnicks.nick.color.simple") && !MessageUtil.stripLegacy(nickname).equals(nickname)) {
+                player.sendMessage(MessageUtil.getMessage("nick.no-codes"));
+                return true;
+            }
+            if (!player.hasPermission("mysqlnicks.nick.color.hex") && !MessageUtil.stripHex(nickname).equals(nickname)) {
+                player.sendMessage(MessageUtil.getMessage("nick.no-hex"));
+                return true;
+            }
         }
         if (!player.hasPermission("mysqlnicks.nick.format") && (nickname.contains("&l") ||
                 nickname.contains("&m") || nickname.contains("&n") || nickname.contains("&o") ||

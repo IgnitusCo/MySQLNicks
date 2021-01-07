@@ -15,15 +15,16 @@ import java.util.UUID;
 
 public class DataUtil {
 
-    private static MySQLNicks mySQLNicks = MySQLNicks.getInstance();
+    private static final MySQLNicks mySQLNicks = MySQLNicks.getInstance();
 
     @Getter
-    private static HikariDataSource dataSource;
+    private static final HikariDataSource dataSource;
 
     static {
         dataSource = setupDatabase();
     }
 
+    //Stores the database connection information
     private static HikariDataSource setupDatabase() {
         final FileConfiguration config = mySQLNicks.getConfig();
         final HikariDataSource dataSource = new HikariDataSource();
@@ -43,6 +44,7 @@ public class DataUtil {
         return dataSource;
     }
 
+    //Attempts to create the necessary databases for the plugin
     public static boolean createDatabases() {
         try (Connection connection = getDataSource().getConnection()) {
             connection.prepareStatement(
@@ -58,6 +60,12 @@ public class DataUtil {
         }
     }
 
+    /**
+     * Checks if a player has a saved nickname in the database
+     *
+     * @param uuid The uuid of the player
+     * @return true if the player has a nickname. False if they don't
+     */
     public static boolean hasNickname(UUID uuid) {
         try (Connection connection = getDataSource().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM `mysqlnicks` WHERE `uuid` = ?");
@@ -68,6 +76,12 @@ public class DataUtil {
         }
     }
 
+    /**
+     * Get's the saved nickname of a specified player
+     *
+     * @param uuid The player's uuid
+     * @return The nickname of a player, or null if they don't have a nickname
+     */
     public static String getNickname(UUID uuid) {
         try (Connection connection = getDataSource().getConnection()) {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM `mysqlnicks` WHERE `uuid` = ?");
@@ -80,6 +94,13 @@ public class DataUtil {
         return null;
     }
 
+    /**
+     * Attempts to set a player's nickname
+     *
+     * @param uuid     The player's uuid
+     * @param nickname The desired nickname
+     * @return true if the nickname was changed, or false if an error occurred
+     */
     public static boolean setNickname(UUID uuid, String nickname) {
         try (Connection connection = getDataSource().getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
@@ -95,6 +116,12 @@ public class DataUtil {
         }
     }
 
+    /**
+     * Attempts to simultaneously update multiple nicknames
+     *
+     * @param nicknames A map of nicknames to be updated.
+     * @return true if the nicknames were updated, or false if the action failed
+     */
     public static boolean updateMultipleNicknames(HashMap<UUID, String> nicknames) {
         try (Connection connection = getDataSource().getConnection()) {
             PreparedStatement statement = connection.prepareStatement(
@@ -113,6 +140,9 @@ public class DataUtil {
         }
     }
 
+    /**
+     * @return A map of nicknames stored in the database.
+     */
     public static HashMap<UUID, String> getSavedNicknames() {
         HashMap<UUID, String> nicknames = new HashMap<>();
         try (Connection connection = getDataSource().getConnection()) {

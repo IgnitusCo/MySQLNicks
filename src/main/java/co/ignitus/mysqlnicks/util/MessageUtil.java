@@ -11,7 +11,11 @@ public class MessageUtil {
 
     private static final String HEX_REGEX = "\\{#([A-Fa-f0-9]{6})}|#([A-Fa-f0-9]{6})";
 
-    public static String format(String message) {
+    public static String formatLegacy(String message) {
+        return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
+    public static String formatHex(String message) {
         if (Bukkit.getVersion().contains("1.16")) {
             Pattern pattern = Pattern.compile(HEX_REGEX);
             Matcher matcher = pattern.matcher(message);
@@ -24,11 +28,23 @@ public class MessageUtil {
             }
         } else
             message = message.replaceAll(HEX_REGEX, "");
-        return ChatColor.translateAlternateColorCodes('&', message);
+        return message;
+    }
+
+    public static String format(String message) {
+        return formatLegacy(formatHex(message));
+    }
+
+    public static String stripLegacy(String message) {
+        return ChatColor.stripColor(formatLegacy(message));
+    }
+
+    public static String stripHex(String message) {
+        return message.replaceAll(HEX_REGEX, "");
     }
 
     public static String stripColor(String message) {
-        return ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', message))
+        return ChatColor.stripColor(formatLegacy(message))
                 .replaceAll(HEX_REGEX, "");
     }
 

@@ -18,15 +18,18 @@ public class ExportCMD implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        //If the player doesn't have the appropriate permission, sends them the error message
         if (!sender.hasPermission("mysqlnicks.exportnicks")) {
             sender.sendMessage(MessageUtil.getMessage("exportnicks.no-permission"));
             return true;
         }
 
+        //Checks if CMI is enabled on the server
         if (Bukkit.getPluginManager().isPluginEnabled("CMI")) {
             String[] replace = new String[]{"%plugin%", "CMI"};
             sender.sendMessage(MessageUtil.getMessage("exportnicks.starting", replace));
             Bukkit.getScheduler().runTaskAsynchronously(mySQLNicks, () -> {
+                //Loops through all the nicknames in the database and hooks into CMI to change a player's nickname in the database
                 DataUtil.getSavedNicknames().forEach((uuid, nickname) -> {
                     CMIUser user = CMI.getInstance().getPlayerManager().getUser(uuid);
                     user.setNickName(nickname, true);
@@ -36,6 +39,7 @@ public class ExportCMD implements CommandExecutor {
             return true;
         }
 
+        //Checks if Essentials is enabled.
         if (Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
             String[] replace = new String[]{"%plugin%", "Essentials"};
             Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
@@ -45,6 +49,7 @@ public class ExportCMD implements CommandExecutor {
             }
             sender.sendMessage(MessageUtil.getMessage("exportnicks.starting", replace));
             Bukkit.getScheduler().runTaskAsynchronously(mySQLNicks, () -> {
+                //Loops through all the nicknames in the database and hooks into Essentials to change a player's nickname in the database
                 DataUtil.getSavedNicknames().forEach((uuid, nickname) -> {
                     User user = essentials.getUser(uuid);
                     if (user == null)

@@ -20,22 +20,26 @@ public class ImportCMD implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        //If the player doesn't have the appropriate permission, sends them the error message
         if (!sender.hasPermission("mysqlnicks.importnicks")) {
             sender.sendMessage(MessageUtil.getMessage("importnicks.no-permission"));
             return true;
         }
 
+        //Checks if CMI is enabled on the server
         if (Bukkit.getPluginManager().isPluginEnabled("CMI")) {
             String[] replace = new String[]{"%plugin%", "CMI"};
             HashMap<UUID, String> nicknames = new HashMap<>();
             sender.sendMessage(MessageUtil.getMessage("importnicks.starting", replace));
             Bukkit.getScheduler().runTaskAsynchronously(mySQLNicks, () -> {
+                //Loops through all the players in the CMI database
                 CMI.getInstance().getPlayerManager().getAllUsers().forEach((uuid, user) -> {
                     String nickname = user.getNickName();
                     if (nickname == null || nickname.isEmpty())
                         return;
                     nicknames.put(uuid, nickname);
                 });
+                //Updates the MySQLNicks database
                 if (DataUtil.updateMultipleNicknames(nicknames))
                     sender.sendMessage(MessageUtil.getMessage("importnicks.finished", replace));
                 else
@@ -44,6 +48,7 @@ public class ImportCMD implements CommandExecutor {
             return true;
         }
 
+        //Checks if Essentials is enabled on the server
         if (Bukkit.getPluginManager().isPluginEnabled("Essentials")) {
             String[] replace = new String[]{"%plugin%", "Essentials"};
             Essentials essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
@@ -55,6 +60,7 @@ public class ImportCMD implements CommandExecutor {
             HashMap<UUID, String> nicknames = new HashMap<>();
             sender.sendMessage(MessageUtil.getMessage("importnicks.starting", replace));
             Bukkit.getScheduler().runTaskAsynchronously(mySQLNicks, () -> {
+                //Loops through all the players in the Essentials database
                 essentials.getUserMap().getAllUniqueUsers().forEach(uuid -> {
                     User user = essentials.getUser(uuid);
                     if (user == null)
@@ -64,6 +70,7 @@ public class ImportCMD implements CommandExecutor {
                         return;
                     nicknames.put(uuid, nickname);
                 });
+                //Updates the MySQLNicks database
                 if (DataUtil.updateMultipleNicknames(nicknames))
                     sender.sendMessage(MessageUtil.getMessage("importnicks.finished", replace));
                 else
